@@ -38,7 +38,8 @@ Each paper utilizes a custom ontology beyond the combined ontology framework. Be
 - `participant 001`, `participant 002` – Annotated human participants
 - `task p1 t1`, `task p2 t1` – Instances of `NoisyImageClassificationTask`
 
-![Fig. 1 – Ontology from noisy image classification paper](#) <!-- (Add actual image path if available) -->
+![Figure 1 – Ontology from noisy image classification paper](/AIpaper.png)
+
 
 ---
 
@@ -78,7 +79,7 @@ Each paper utilizes a custom ontology beyond the combined ontology framework. Be
 - `controller input modality`, `hand input modality`, `voice input modality` – Interaction modalities
 - `study participant 001` – A participant object
 
-![Fig. 2 – Ontology from Virtual Environments paper](#) <!-- (Add actual image path if available) -->
+![Figure 2 – Ontology from VR generation study](gv.png)
 
 ---
 
