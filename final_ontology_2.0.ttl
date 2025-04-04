@@ -1,0 +1,2220 @@
+@prefix : <http://example.org/combined_ontology/> .
+@prefix ai: <http://example.org/aiAssistance#> .
+@prefix gv: <http://example.org/generativeVR#> .
+@prefix gx: <http://example.org/globalExplainerPrivacy#> .
+@prefix hc: <http://example.org/humanAIConfidence#> .
+@prefix hv: <http://example.org/hybridValues#> .
+@prefix jv: <http://example.org/jobVacancies#> .
+@prefix pa: <http://example.org/physicalActivityChatbot#> .
+@prefix sm: <http://example.org/smartManufacturing#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix brain: <http://example.org/aiAidedBrainstorming#> .
+@prefix suppl: <http://example.org/supple#> .
+@base <http://example.org/combined_ontology/> .
+
+<http://example.org/combined_ontology> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/aiAidedBrainstorming#achievedMetric
+brain:achievedMetric rdf:type owl:ObjectProperty ;
+                     owl:equivalentProperty ai:achievedMetric ,
+                                            gv:achievedResult ,
+                                            hc:achievedMetric ;
+                     rdfs:range brain:PerformanceMetric .
+
+
+###  http://example.org/aiAidedBrainstorming#hasCondition
+brain:hasCondition rdf:type owl:ObjectProperty ;
+                   rdfs:domain brain:GuesstimationTask ;
+                   rdfs:range brain:ExperimentalCondition .
+
+
+###  http://example.org/aiAidedBrainstorming#hasQuestion
+brain:hasQuestion rdf:type owl:ObjectProperty ;
+                  rdfs:domain brain:GuesstimationTask ;
+                  rdfs:range brain:GuesstimationQuestion .
+
+
+###  http://example.org/aiAidedBrainstorming#hasSemanticTransformation
+brain:hasSemanticTransformation rdf:type owl:ObjectProperty ;
+                                rdfs:domain brain:GuesstimationQuestion ;
+                                rdfs:range brain:SemanticTransformation .
+
+
+###  http://example.org/aiAidedBrainstorming#involvesParticipant
+brain:involvesParticipant rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf brain:involvesParticipant ;
+                          rdfs:domain brain:GuesstimationTask ;
+                          rdfs:range brain:Participant .
+
+
+###  http://example.org/aiAidedBrainstorming#usesLLMBrainstorming
+brain:usesLLMBrainstorming rdf:type owl:ObjectProperty ;
+                           rdfs:domain brain:GuesstimationTask ;
+                           rdfs:range brain:LLMBrainstorming .
+
+
+###  http://example.org/aiAssistance#achievedMetric
+ai:achievedMetric rdf:type owl:ObjectProperty ;
+                  rdfs:range ai:PerformanceMetric .
+
+
+###  http://example.org/aiAssistance#hasCondition
+ai:hasCondition rdf:type owl:ObjectProperty ;
+                rdfs:domain ai:NoisyImageClassificationTask ;
+                rdfs:range ai:ExperimentalCondition .
+
+
+###  http://example.org/aiAssistance#involvesParticipant
+ai:involvesParticipant rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf ai:involvesParticipant ;
+                       rdfs:domain ai:NoisyImageClassificationTask ;
+                       rdfs:range ai:Participant .
+
+
+###  http://example.org/aiAssistance#usesAIModel
+ai:usesAIModel rdf:type owl:ObjectProperty ;
+               rdfs:domain ai:NoisyImageClassificationTask ;
+               rdfs:range ai:AIModel .
+
+
+###  http://example.org/combined_ontology/capability
+:capability rdf:type owl:ObjectProperty ;
+            rdfs:domain :Actor ;
+            rdfs:range :Capability .
+
+
+###  http://example.org/combined_ontology/context
+:context rdf:type owl:ObjectProperty ;
+         rdfs:domain :Scenario ;
+         rdfs:range :Context .
+
+
+###  http://example.org/combined_ontology/dependsOn
+:dependsOn rdf:type owl:ObjectProperty ,
+                    owl:TransitiveProperty ;
+           rdfs:domain :Scenario ;
+           rdfs:range :Scenario ;
+           rdfs:comment "Scenarios can depend on each other in a transitive way." .
+
+
+###  http://example.org/combined_ontology/domain
+:domain rdf:type owl:ObjectProperty ;
+        rdfs:domain :Scenario ;
+        rdfs:range :Domain .
+
+
+###  http://example.org/combined_ontology/endgoal
+:endgoal rdf:type owl:ObjectProperty ;
+         rdfs:domain :Scenario ;
+         rdfs:range :Endgoal .
+
+
+###  http://example.org/combined_ontology/extendsMethod
+:extendsMethod rdf:type owl:ObjectProperty ,
+                        owl:TransitiveProperty ;
+               rdfs:domain :ProcessingMethod ;
+               rdfs:range :ProcessingMethod ;
+               rdfs:comment "If method A extends method B, and method B extends method C, then A extends method C." .
+
+
+###  http://example.org/combined_ontology/hasEthicalConsideration
+:hasEthicalConsideration rdf:type owl:ObjectProperty ;
+                         rdfs:domain :Scenario ;
+                         rdfs:range :EthicalConsideration .
+
+
+###  http://example.org/combined_ontology/hasInteraction
+:hasInteraction rdf:type owl:ObjectProperty ;
+                rdfs:domain :Scenario ;
+                rdfs:range :Interaction .
+
+
+###  http://example.org/combined_ontology/hasOwnContext
+:hasOwnContext rdf:type owl:ObjectProperty ,
+                        owl:ReflexiveProperty ;
+               rdfs:domain :Context ;
+               rdfs:range :Context ;
+               rdfs:comment "Every Context 'hasOwnContext' for itself." .
+
+
+###  http://example.org/combined_ontology/hasSubTask
+:hasSubTask rdf:type owl:ObjectProperty ,
+                     owl:TransitiveProperty ;
+            rdfs:domain :InteractionTask ;
+            rdfs:range :InteractionTask ;
+            rdfs:comment "Task decomposition is transitive: if A hasSubTask B and B hasSubTask C, then A hasSubTask C." .
+
+
+###  http://example.org/combined_ontology/inScenario
+:inScenario rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty ;
+            rdfs:domain :Actor ;
+            rdfs:range :Scenario .
+
+
+###  http://example.org/combined_ontology/informationMethod
+:informationMethod rdf:type owl:ObjectProperty ;
+                   rdfs:domain :InformationProcessing ;
+                   rdfs:range :ProcessingMethod .
+
+
+###  http://example.org/combined_ontology/interactingAgent
+:interactingAgent rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Interaction ;
+                  rdfs:range :Actor .
+
+
+###  http://example.org/combined_ontology/interactionMethod
+:interactionMethod rdf:type owl:ObjectProperty ;
+                   rdfs:domain :Interaction ;
+                   rdfs:range :InteractionMethod .
+
+
+###  http://example.org/combined_ontology/interactionTask
+:interactionTask rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Interaction ;
+                 rdfs:range :InteractionTask .
+
+
+###  http://example.org/combined_ontology/isResponsibleFor
+:isResponsibleFor rdf:type owl:ObjectProperty ,
+                           owl:ReflexiveProperty ;
+                  rdfs:domain :Actor ;
+                  rdfs:range :Actor ;
+                  rdfs:comment "Every Actor is considered at least partially responsible for themselves." .
+
+
+###  http://example.org/combined_ontology/processingInformation
+:processingInformation rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Actor ;
+                       rdfs:range :InformationProcessing .
+
+
+###  http://example.org/combined_ontology/processingTask
+:processingTask rdf:type owl:ObjectProperty ;
+                rdfs:domain :InformationProcessing ;
+                rdfs:range :ProcessingTask .
+
+
+###  http://example.org/generativeVR#achievedResult
+gv:achievedResult rdf:type owl:ObjectProperty ;
+                  rdfs:range gv:EvaluationMetric .
+
+
+###  http://example.org/generativeVR#employsGenerationStep
+gv:employsGenerationStep rdf:type owl:ObjectProperty ;
+                         rdfs:domain gv:EnvironmentGeneration ;
+                         rdfs:range gv:GenerationStep .
+
+
+###  http://example.org/generativeVR#hasControlFlow
+gv:hasControlFlow rdf:type owl:ObjectProperty ;
+                  rdfs:range gv:ControlFlow .
+
+
+###  http://example.org/generativeVR#hasModality
+gv:hasModality rdf:type owl:ObjectProperty ;
+               rdfs:range gv:InteractionModality .
+
+
+###  http://example.org/generativeVR#involvesParticipant
+gv:involvesParticipant rdf:type owl:ObjectProperty ;
+                       rdfs:range gv:Participant .
+
+
+###  http://example.org/globalExplainerPrivacy#attackedBy
+gx:attackedBy rdf:type owl:ObjectProperty ;
+              rdfs:domain gx:Classifier ;
+              rdfs:range gx:MembershipInferenceAttack .
+
+
+###  http://example.org/globalExplainerPrivacy#hasAttackModel
+gx:hasAttackModel rdf:type owl:ObjectProperty ;
+                  rdfs:domain gx:PrivacyAttack ;
+                  rdfs:range gx:AttackModel .
+
+
+###  http://example.org/globalExplainerPrivacy#hasPrivacyRisk
+gx:hasPrivacyRisk rdf:type owl:ObjectProperty ;
+                  rdfs:domain gx:Classifier ;
+                  rdfs:range gx:PrivacyRisk .
+
+
+###  http://example.org/globalExplainerPrivacy#mimics
+gx:mimics rdf:type owl:ObjectProperty ;
+          rdfs:domain gx:GlobalExplainer ;
+          rdfs:range gx:BlackBoxClassifier .
+
+
+###  http://example.org/globalExplainerPrivacy#trainedOn
+gx:trainedOn rdf:type owl:ObjectProperty ;
+             rdfs:domain gx:Classifier ;
+             rdfs:range gx:PrivateDataset .
+
+
+###  http://example.org/humanAIConfidence#achievedMetric
+hc:achievedMetric rdf:type owl:ObjectProperty ;
+                  rdfs:domain hc:HumanAIDecisionProcess ;
+                  rdfs:range hc:AccuracyMetric ;
+                  rdfs:comment "Indicates the performance metric achieved in a human-AI decision process." .
+
+
+###  http://example.org/humanAIConfidence#hasConfidenceValue
+hc:hasConfidenceValue rdf:type owl:ObjectProperty ;
+                      rdfs:domain hc:AIClassifier ,
+                                  hc:Participant .
+
+
+###  http://example.org/humanAIConfidence#usesClassifier
+hc:usesClassifier rdf:type owl:ObjectProperty ;
+                  rdfs:domain hc:HumanAIDecisionProcess ;
+                  rdfs:range hc:AIClassifier .
+
+
+###  http://example.org/hybridValues#computedUsingMethod
+hv:computedUsingMethod rdf:type owl:ObjectProperty ;
+                       rdfs:domain hv:ValuePreference ;
+                       rdfs:range hv:EstimationMethod .
+
+
+###  http://example.org/hybridValues#considersOption
+hv:considersOption rdf:type owl:ObjectProperty ;
+                   rdfs:domain hv:Participant ;
+                   rdfs:range hv:PolicyOption .
+
+
+###  http://example.org/hybridValues#hasChoiceDistribution
+hv:hasChoiceDistribution rdf:type owl:ObjectProperty ;
+                         rdfs:domain hv:Participant ;
+                         rdfs:range hv:ChoiceDistribution .
+
+
+###  http://example.org/hybridValues#hasConflict
+hv:hasConflict rdf:type owl:ObjectProperty ;
+               rdfs:domain hv:Participant ;
+               rdfs:range hv:ChoiceMotivationConflict .
+
+
+###  http://example.org/hybridValues#hasValuePreference
+hv:hasValuePreference rdf:type owl:ObjectProperty ;
+                      rdfs:domain hv:Participant ;
+                      rdfs:range hv:ValuePreference .
+
+
+###  http://example.org/hybridValues#mentionsValue
+hv:mentionsValue rdf:type owl:ObjectProperty ;
+                 rdfs:domain hv:Motivation ;
+                 rdfs:range hv:Value .
+
+
+###  http://example.org/hybridValues#motivatesOption
+hv:motivatesOption rdf:type owl:ObjectProperty ;
+                   rdfs:domain hv:Motivation ;
+                   rdfs:range hv:PolicyOption .
+
+
+###  http://example.org/hybridValues#providesMotivation
+hv:providesMotivation rdf:type owl:ObjectProperty ;
+                      rdfs:domain hv:Participant ;
+                      rdfs:range hv:Motivation .
+
+
+###  http://example.org/jobVacancies#hasMatchingResult
+jv:hasMatchingResult rdf:type owl:ObjectProperty .
+
+
+###  http://example.org/jobVacancies#hasSkillSet
+jv:hasSkillSet rdf:type owl:ObjectProperty ;
+               rdfs:domain jv:Jobseeker ;
+               rdfs:range jv:SkillSet .
+
+
+###  http://example.org/jobVacancies#requiresSkillSet
+jv:requiresSkillSet rdf:type owl:ObjectProperty ;
+                    rdfs:domain jv:JobVacancy ;
+                    rdfs:range jv:SkillSet .
+
+
+###  http://example.org/jobVacancies#usedMatchingSystem
+jv:usedMatchingSystem rdf:type owl:ObjectProperty ;
+                      rdfs:domain jv:MatchingResult ;
+                      rdfs:range jv:MatchingSystem .
+
+
+###  http://example.org/physicalActivityChatbot#hasMeasurement
+pa:hasMeasurement rdf:type owl:ObjectProperty ;
+                  rdfs:domain pa:ChatbotIntervention ;
+                  rdfs:range pa:MeasurementMetric ;
+                  rdfs:comment "Links a chatbot intervention to measurement metrics (like user attitude score)." .
+
+
+###  http://example.org/physicalActivityChatbot#receivedIntervention
+pa:receivedIntervention rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf :hasInteraction ;
+                        rdfs:domain pa:Participant ;
+                        rdfs:range pa:ChatbotIntervention .
+
+
+###  http://example.org/physicalActivityChatbot#targetsBarrier
+pa:targetsBarrier rdf:type owl:ObjectProperty ;
+                  rdfs:domain pa:ChatbotIntervention ;
+                  rdfs:range pa:Barrier .
+
+
+###  http://example.org/smartManufacturing#hasGoal
+sm:hasGoal rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :endgoal ;
+           rdfs:domain sm:SmartManufacturingProcess ;
+           rdfs:range sm:CollaborationGoal .
+
+
+###  http://example.org/smartManufacturing#hasKeyConcept
+sm:hasKeyConcept rdf:type owl:ObjectProperty ;
+                 rdfs:domain sm:SmartManufacturingProcess ;
+                 rdfs:range owl:Thing ;
+                 rdfs:comment "Links a smart manufacturing process or framework to key concept(s) it comprises." .
+
+
+###  http://example.org/smartManufacturing#hasSkill
+sm:hasSkill rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf :capability ;
+            rdfs:range sm:Skill .
+
+
+###  http://example.org/smartManufacturing#hasTeam
+sm:hasTeam rdf:type owl:ObjectProperty ;
+           rdfs:domain sm:SmartManufacturingProcess ;
+           rdfs:range sm:CollaborationTeam .
+
+
+###  http://example.org/smartManufacturing#teamInvolvesParticipant
+sm:teamInvolvesParticipant rdf:type owl:ObjectProperty ;
+                           rdfs:domain sm:SmartManufacturingProcess ;
+                           rdfs:range :Human ;
+                           rdfs:comment "If a process has a team, and that team involves a participant, the process also 'teamInvolvesParticipant' that person." .
+
+
+###  http://example.org/supple#hasAgenda
+suppl:hasAgenda rdf:type owl:ObjectProperty ;
+                rdfs:domain suppl:InformationState ;
+                rdfs:range suppl:Agenda .
+
+
+###  http://example.org/supple#hasDialogIntent
+suppl:hasDialogIntent rdf:type owl:ObjectProperty ;
+                      rdfs:domain suppl:DialogSequence ;
+                      rdfs:range suppl:DialogIntent .
+
+
+###  http://example.org/supple#hasInformationState
+suppl:hasInformationState rdf:type owl:ObjectProperty ;
+                          rdfs:domain suppl:DialogSession ;
+                          rdfs:range suppl:InformationState .
+
+
+###  http://example.org/supple#hasSequence
+suppl:hasSequence rdf:type owl:ObjectProperty ;
+                  rdfs:domain suppl:DialogSession ;
+                  rdfs:range suppl:DialogSequence .
+
+
+###  http://example.org/supple#hasSubSequence
+suppl:hasSubSequence rdf:type owl:ObjectProperty ;
+                     rdfs:domain suppl:DialogSequence ;
+                     rdfs:range suppl:DialogSequence .
+
+
+###  http://example.org/supple#initiatedBy
+suppl:initiatedBy rdf:type owl:ObjectProperty ;
+                  rdfs:domain suppl:DialogSequence ;
+                  rdfs:range suppl:DialogParticipant .
+
+
+###  http://example.org/supple#instantiatesPattern
+suppl:instantiatesPattern rdf:type owl:ObjectProperty ;
+                          rdfs:domain suppl:DialogSequence ;
+                          rdfs:range suppl:ConversationPattern .
+
+
+###  http://example.org/supple#nextAgendaItem
+suppl:nextAgendaItem rdf:type owl:ObjectProperty ;
+                     rdfs:domain suppl:Agenda ;
+                     rdfs:range suppl:ConversationPattern .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.org/aiAidedBrainstorming#hasAccuracyValue
+brain:hasAccuracyValue rdf:type owl:DatatypeProperty ;
+                       rdfs:domain brain:EstimationAccuracy ;
+                       rdfs:range xsd:float .
+
+
+###  http://example.org/aiAidedBrainstorming#hasNumToolQueries
+brain:hasNumToolQueries rdf:type owl:DatatypeProperty ;
+                        rdfs:domain brain:GuesstimationTask ;
+                        rdfs:range xsd:integer .
+
+
+###  http://example.org/aiAidedBrainstorming#hasUEQScore
+brain:hasUEQScore rdf:type owl:DatatypeProperty ;
+                  rdfs:domain brain:UserExperienceMetric ;
+                  rdfs:range xsd:float .
+
+
+###  http://example.org/aiAssistance#hasAccuracyValue
+ai:hasAccuracyValue rdf:type owl:DatatypeProperty ;
+                    rdfs:range xsd:decimal ;
+                    rdfs:comment "Stores an accuracy percentage (0.0–100.0) or proportion (0.0–1.0)." .
+
+
+###  http://example.org/aiAssistance#hasAutomationBiasScore
+ai:hasAutomationBiasScore rdf:type owl:DatatypeProperty ;
+                          rdfs:domain ai:Participant ;
+                          rdfs:range xsd:float ;
+                          rdfs:comment "Quantifies a participant’s over-reliance on AI (higher values = stronger bias)." .
+
+
+###  http://example.org/aiAssistance#hasConfidenceValue
+ai:hasConfidenceValue rdf:type owl:DatatypeProperty ;
+                      rdfs:domain ai:AIModel ,
+                                  ai:Participant ;
+                      rdfs:range xsd:decimal ,
+                                 xsd:float ;
+                      rdfs:comment "Indicates the confidence (0.0–1.0) for a classification decision, either human or AI." .
+
+
+###  http://example.org/aiAssistance#hasOptimalRelianceGap
+ai:hasOptimalRelianceGap rdf:type owl:DatatypeProperty ;
+                         rdfs:domain ai:Participant ;
+                         rdfs:range xsd:float ;
+                         rdfs:comment "Difference between participant’s actual performance and the theoretical upper bound (0.0 means perfectly optimal reliance)." .
+
+
+###  http://example.org/combined_ontology/hasAuthors
+:hasAuthors rdf:type owl:DatatypeProperty ,
+                     owl:FunctionalProperty ;
+            rdfs:domain :Paper .
+
+
+###  http://example.org/combined_ontology/hasDOInr
+:hasDOInr rdf:type owl:DatatypeProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :Paper .
+
+
+###  http://example.org/combined_ontology/hasOntologyNamespace
+:hasOntologyNamespace rdf:type owl:DatatypeProperty ,
+                               owl:FunctionalProperty ;
+                      rdfs:domain :Paper .
+
+
+###  http://example.org/combined_ontology/hasTItle
+:hasTItle rdf:type owl:DatatypeProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :Paper .
+
+
+###  http://example.org/generativeVR#hasRotationError
+gv:hasRotationError rdf:type owl:DatatypeProperty ;
+                    rdfs:domain gv:SpatialAccuracy ;
+                    rdfs:range xsd:float .
+
+
+###  http://example.org/generativeVR#hasSUSScore
+gv:hasSUSScore rdf:type owl:DatatypeProperty ;
+               rdfs:domain gv:UsabilityScore ;
+               rdfs:range xsd:float .
+
+
+###  http://example.org/generativeVR#hasTimeInSeconds
+gv:hasTimeInSeconds rdf:type owl:DatatypeProperty ;
+                    rdfs:domain gv:TaskCompletionTime ;
+                    rdfs:range xsd:float .
+
+
+###  http://example.org/generativeVR#hasTranslationError
+gv:hasTranslationError rdf:type owl:DatatypeProperty ;
+                       rdfs:domain gv:SpatialAccuracy ;
+                       rdfs:range xsd:float .
+
+
+###  http://example.org/generativeVR#hasUEQScore
+gv:hasUEQScore rdf:type owl:DatatypeProperty ;
+               rdfs:domain gv:UserExperienceScore ;
+               rdfs:range xsd:float .
+
+
+###  http://example.org/globalExplainerPrivacy#hasDeltaRisk
+gx:hasDeltaRisk rdf:type owl:DatatypeProperty ;
+                rdfs:domain gx:PrivacyRisk ;
+                rdfs:range xsd:float .
+
+
+###  http://example.org/globalExplainerPrivacy#hasRecallIN
+gx:hasRecallIN rdf:type owl:DatatypeProperty ;
+               rdfs:domain gx:AttackModel ;
+               rdfs:range xsd:float .
+
+
+###  http://example.org/humanAIConfidence#hasAccuracyValue
+hc:hasAccuracyValue rdf:type owl:DatatypeProperty ;
+                    rdfs:domain hc:AccuracyMetric ;
+                    rdfs:range xsd:float .
+
+
+###  http://example.org/humanAIConfidence#hasRelianceValue
+hc:hasRelianceValue rdf:type owl:DatatypeProperty ;
+                    rdfs:domain hc:Reliance ;
+                    rdfs:range xsd:float .
+
+
+###  http://example.org/hybridValues#conflictDescription
+hv:conflictDescription rdf:type owl:DatatypeProperty ;
+                       rdfs:domain hv:ChoiceMotivationConflict ;
+                       rdfs:range xsd:string .
+
+
+###  http://example.org/hybridValues#hasOptionName
+hv:hasOptionName rdf:type owl:DatatypeProperty ;
+                 rdfs:domain hv:PolicyOption ;
+                 rdfs:range xsd:string .
+
+
+###  http://example.org/hybridValues#hasPointsForOption
+hv:hasPointsForOption rdf:type owl:DatatypeProperty ;
+                      rdfs:domain hv:ChoiceDistribution ;
+                      rdfs:range xsd:float .
+
+
+###  http://example.org/hybridValues#hasRankOfValue
+hv:hasRankOfValue rdf:type owl:DatatypeProperty ;
+                  rdfs:domain hv:ValuePreference ;
+                  rdfs:range xsd:int .
+
+
+###  http://example.org/hybridValues#hasValueName
+hv:hasValueName rdf:type owl:DatatypeProperty ;
+                rdfs:domain hv:Value ;
+                rdfs:range xsd:string .
+
+
+###  http://example.org/hybridValues#motivationText
+hv:motivationText rdf:type owl:DatatypeProperty ;
+                  rdfs:domain hv:Motivation ;
+                  rdfs:range xsd:string .
+
+
+###  http://example.org/jobVacancies#hasMatchingScore
+jv:hasMatchingScore rdf:type owl:DatatypeProperty ;
+                    rdfs:domain jv:MatchingResult ;
+                    rdfs:range xsd:float .
+
+
+###  http://example.org/jobVacancies#skillLevel
+jv:skillLevel rdf:type owl:DatatypeProperty ;
+              rdfs:domain jv:SkillSet ;
+              rdfs:range xsd:float .
+
+
+###  http://example.org/physicalActivityChatbot#hasAttitudeScore
+pa:hasAttitudeScore rdf:type owl:DatatypeProperty ;
+                    rdfs:domain pa:MeasurementMetric ;
+                    rdfs:range xsd:float ;
+                    rdfs:comment "Captures a user's or participants’ average rating about an intervention's perceived effectiveness." .
+
+
+###  http://example.org/smartManufacturing#hasWellbeingScore
+sm:hasWellbeingScore rdf:type owl:DatatypeProperty ;
+                     rdfs:range xsd:float .
+
+
+###  http://example.org/supple#hasRecognitionConfidence
+suppl:hasRecognitionConfidence rdf:type owl:DatatypeProperty ;
+                               rdfs:domain suppl:DialogIntent ;
+                               rdfs:range xsd:float .
+
+
+###  http://example.org/supple#hasTurnIndex
+suppl:hasTurnIndex rdf:type owl:DatatypeProperty ;
+                   rdfs:domain suppl:DialogIntent ;
+                   rdfs:range xsd:integer .
+
+
+###  http://example.org/supple#isCompleted
+suppl:isCompleted rdf:type owl:DatatypeProperty ;
+                  rdfs:domain suppl:DialogSequence ;
+                  rdfs:range xsd:boolean .
+
+
+###  http://example.org/supple#slotValue
+suppl:slotValue rdf:type owl:DatatypeProperty ;
+                rdfs:domain suppl:DialogIntent ;
+                rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/aiAidedBrainstorming#AIOffCondition
+brain:AIOffCondition rdf:type owl:Class ;
+                     rdfs:subClassOf brain:ExperimentalCondition .
+
+
+###  http://example.org/aiAidedBrainstorming#AIOnCondition
+brain:AIOnCondition rdf:type owl:Class ;
+                    rdfs:subClassOf brain:ExperimentalCondition .
+
+
+###  http://example.org/aiAidedBrainstorming#EstimationAccuracy
+brain:EstimationAccuracy rdf:type owl:Class ;
+                         rdfs:subClassOf brain:PerformanceMetric ,
+                                         ai:Accuracy .
+
+
+###  http://example.org/aiAidedBrainstorming#ExperimentalCondition
+brain:ExperimentalCondition rdf:type owl:Class ;
+                            owl:equivalentClass ai:ExperimentalCondition .
+
+
+###  http://example.org/aiAidedBrainstorming#GuesstimationQuestion
+brain:GuesstimationQuestion rdf:type owl:Class .
+
+
+###  http://example.org/aiAidedBrainstorming#GuesstimationTask
+brain:GuesstimationTask rdf:type owl:Class ;
+                        rdfs:subClassOf :InteractionTask .
+
+
+###  http://example.org/aiAidedBrainstorming#LLMBrainstorming
+brain:LLMBrainstorming rdf:type owl:Class ;
+                       rdfs:subClassOf :ProcessingMethod ;
+                       rdfs:comment "An LLM-based process for brainstorming." .
+
+
+###  http://example.org/aiAidedBrainstorming#Participant
+brain:Participant rdf:type owl:Class ;
+                  owl:equivalentClass ai:Participant ,
+                                      gv:Participant ,
+                                      hc:Participant ,
+                                      hv:Participant ,
+                                      pa:Participant ;
+                  rdfs:subClassOf :Human .
+
+
+###  http://example.org/aiAidedBrainstorming#PerformanceMetric
+brain:PerformanceMetric rdf:type owl:Class ;
+                        owl:equivalentClass ai:PerformanceMetric ,
+                                            gv:EvaluationMetric .
+
+
+###  http://example.org/aiAidedBrainstorming#SemanticTransformation
+brain:SemanticTransformation rdf:type owl:Class ;
+                             rdfs:comment "A re-framed or substituted question used in guesstimation." .
+
+
+###  http://example.org/aiAidedBrainstorming#UserExperienceMetric
+brain:UserExperienceMetric rdf:type owl:Class ;
+                           rdfs:subClassOf brain:PerformanceMetric ,
+                                           gv:UserExperienceScore .
+
+
+###  http://example.org/aiAssistance#AIModel
+ai:AIModel rdf:type owl:Class ;
+           owl:equivalentClass gx:Classifier ,
+                               hc:AIClassifier ;
+           rdfs:subClassOf :ArtificialAgent ;
+           rdfs:comment "An AI classifier (e.g., fine-tuned VGG-19) assisting the human in image classification." .
+
+
+###  http://example.org/aiAssistance#AIOffCondition
+ai:AIOffCondition rdf:type owl:Class ;
+                  rdfs:subClassOf ai:ExperimentalCondition ;
+                  owl:disjointWith ai:AIOnCondition ;
+                  rdfs:comment "Experimental condition when participant is not allowed to use AI" .
+
+
+###  http://example.org/aiAssistance#AIOnCondition
+ai:AIOnCondition rdf:type owl:Class ;
+                 rdfs:subClassOf ai:ExperimentalCondition ;
+                 rdfs:comment "Experimental condition when participant is allowed to use AI" .
+
+
+###  http://example.org/aiAssistance#Accuracy
+ai:Accuracy rdf:type owl:Class ;
+            rdfs:subClassOf ai:PerformanceMetric ;
+            rdfs:comment "Indicates how often classifications are correct" .
+
+
+###  http://example.org/aiAssistance#AutomationBias
+ai:AutomationBias rdf:type owl:Class ;
+                  rdfs:subClassOf ai:PerformanceMetric ;
+                  rdfs:comment "Score or measure reflecting over-reliance on AI advice" .
+
+
+###  http://example.org/aiAssistance#ClassifierAboveBaseline
+ai:ClassifierAboveBaseline rdf:type owl:Class ;
+                           rdfs:subClassOf ai:AIModel ;
+                           rdfs:comment "Classifier model performing above human baseline accuracy" .
+
+
+###  http://example.org/aiAssistance#ClassifierBelowBaseline
+ai:ClassifierBelowBaseline rdf:type owl:Class ;
+                           rdfs:subClassOf ai:AIModel ;
+                           rdfs:comment "Classifier model performing below baseline human accuracy" .
+
+
+###  http://example.org/aiAssistance#ClassifierOnBaseline
+ai:ClassifierOnBaseline rdf:type owl:Class ;
+                        rdfs:subClassOf ai:AIModel ;
+                        rdfs:comment "Classifier model performing roughly at human baseline accuracy" .
+
+
+###  http://example.org/aiAssistance#ConfidenceRating
+ai:ConfidenceRating rdf:type owl:Class ;
+                    rdfs:subClassOf ai:PerformanceMetric ;
+                    rdfs:comment "Captures participants’ or AI’s confidence level (low, medium, high, or continuous value)" .
+
+
+###  http://example.org/aiAssistance#ExperimentalCondition
+ai:ExperimentalCondition rdf:type owl:Class .
+
+
+###  http://example.org/aiAssistance#HighPerformanceAidedTask
+ai:HighPerformanceAidedTask rdf:type owl:Class .
+
+
+###  http://example.org/aiAssistance#NoisyImageClassificationTask
+ai:NoisyImageClassificationTask rdf:type owl:Class ;
+                                rdfs:subClassOf :InteractionTask .
+
+
+###  http://example.org/aiAssistance#OptimalReliance
+ai:OptimalReliance rdf:type owl:Class ;
+                   rdfs:subClassOf ai:PerformanceMetric ;
+                   rdfs:comment "Indicates how close participants' strategy is to theoretical upper bound performance." .
+
+
+###  http://example.org/aiAssistance#Participant
+ai:Participant rdf:type owl:Class ;
+               rdfs:subClassOf :Human .
+
+
+###  http://example.org/aiAssistance#PerformanceMetric
+ai:PerformanceMetric rdf:type owl:Class ;
+                     owl:equivalentClass gv:EvaluationMetric .
+
+
+###  http://example.org/combined_ontology/Actor
+:Actor rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/ArtificialAgent
+:ArtificialAgent rdf:type owl:Class ;
+                 rdfs:subClassOf :Actor ;
+                 owl:disjointWith :Human .
+
+
+###  http://example.org/combined_ontology/Capability
+:Capability rdf:type owl:Class ;
+            owl:equivalentClass sm:Skill .
+
+
+###  http://example.org/combined_ontology/Context
+:Context rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/Domain
+:Domain rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/Endgoal
+:Endgoal rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/EthicalConsideration
+:EthicalConsideration rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/Human
+:Human rdf:type owl:Class ;
+       rdfs:subClassOf :Actor .
+
+
+###  http://example.org/combined_ontology/InformationProcessing
+:InformationProcessing rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/Interaction
+:Interaction rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/InteractionMethod
+:InteractionMethod rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/InteractionTask
+:InteractionTask rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/Paper
+:Paper rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/Participant
+:Participant rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/ProcessingMethod
+:ProcessingMethod rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/ProcessingTask
+:ProcessingTask rdf:type owl:Class .
+
+
+###  http://example.org/combined_ontology/Scenario
+:Scenario rdf:type owl:Class .
+
+
+###  http://example.org/generativeVR#AllAtOnceFlow
+gv:AllAtOnceFlow rdf:type owl:Class ;
+                 rdfs:subClassOf gv:ControlFlow .
+
+
+###  http://example.org/generativeVR#ColoringStep
+gv:ColoringStep rdf:type owl:Class ;
+                rdfs:subClassOf gv:GenerationStep .
+
+
+###  http://example.org/generativeVR#ControlFlow
+gv:ControlFlow rdf:type owl:Class .
+
+
+###  http://example.org/generativeVR#ControllerInput
+gv:ControllerInput rdf:type owl:Class ;
+                   rdfs:subClassOf gv:InteractionModality .
+
+
+###  http://example.org/generativeVR#CreationBeforeManipulationFlow
+gv:CreationBeforeManipulationFlow rdf:type owl:Class ;
+                                  rdfs:subClassOf gv:ControlFlow .
+
+
+###  http://example.org/generativeVR#CreationStep
+gv:CreationStep rdf:type owl:Class ;
+                rdfs:subClassOf gv:GenerationStep .
+
+
+###  http://example.org/generativeVR#DeletionStep
+gv:DeletionStep rdf:type owl:Class ;
+                rdfs:subClassOf gv:GenerationStep .
+
+
+###  http://example.org/generativeVR#EnvironmentGeneration
+gv:EnvironmentGeneration rdf:type owl:Class ;
+                         rdfs:subClassOf :Scenario .
+
+
+###  http://example.org/generativeVR#EvaluationMetric
+gv:EvaluationMetric rdf:type owl:Class .
+
+
+###  http://example.org/generativeVR#GenerationStep
+gv:GenerationStep rdf:type owl:Class .
+
+
+###  http://example.org/generativeVR#HandInput
+gv:HandInput rdf:type owl:Class ;
+             rdfs:subClassOf gv:InteractionModality .
+
+
+###  http://example.org/generativeVR#InteractionModality
+gv:InteractionModality rdf:type owl:Class ;
+                       rdfs:subClassOf :InteractionMethod .
+
+
+###  http://example.org/generativeVR#MovementStep
+gv:MovementStep rdf:type owl:Class ;
+                rdfs:subClassOf gv:GenerationStep .
+
+
+###  http://example.org/generativeVR#Participant
+gv:Participant rdf:type owl:Class ;
+               rdfs:subClassOf :Human .
+
+
+###  http://example.org/generativeVR#ScalingStep
+gv:ScalingStep rdf:type owl:Class ;
+               rdfs:subClassOf gv:GenerationStep .
+
+
+###  http://example.org/generativeVR#SpatialAccuracy
+gv:SpatialAccuracy rdf:type owl:Class ;
+                   rdfs:subClassOf gv:EvaluationMetric .
+
+
+###  http://example.org/generativeVR#StepByStepFlow
+gv:StepByStepFlow rdf:type owl:Class ;
+                  rdfs:subClassOf gv:ControlFlow .
+
+
+###  http://example.org/generativeVR#TaskCompletionTime
+gv:TaskCompletionTime rdf:type owl:Class ;
+                      rdfs:subClassOf gv:EvaluationMetric .
+
+
+###  http://example.org/generativeVR#UsabilityScore
+gv:UsabilityScore rdf:type owl:Class ;
+                  rdfs:subClassOf gv:EvaluationMetric .
+
+
+###  http://example.org/generativeVR#UserExperienceScore
+gv:UserExperienceScore rdf:type owl:Class ;
+                       rdfs:subClassOf gv:EvaluationMetric .
+
+
+###  http://example.org/generativeVR#VoiceInput
+gv:VoiceInput rdf:type owl:Class ;
+              rdfs:subClassOf gv:InteractionModality .
+
+
+###  http://example.org/globalExplainerPrivacy#AttackModel
+gx:AttackModel rdf:type owl:Class .
+
+
+###  http://example.org/globalExplainerPrivacy#BlackBoxClassifier
+gx:BlackBoxClassifier rdf:type owl:Class ;
+                      rdfs:subClassOf gx:Classifier .
+
+
+###  http://example.org/globalExplainerPrivacy#Classifier
+gx:Classifier rdf:type owl:Class ;
+              rdfs:subClassOf :ArtificialAgent .
+
+
+###  http://example.org/globalExplainerPrivacy#Dataset
+gx:Dataset rdf:type owl:Class .
+
+
+###  http://example.org/globalExplainerPrivacy#GlobalExplainer
+gx:GlobalExplainer rdf:type owl:Class ;
+                   rdfs:subClassOf :ArtificialAgent ;
+                   rdfs:comment "An interpretable surrogate model that imitates a black-box classifier." .
+
+
+###  http://example.org/globalExplainerPrivacy#MembershipInferenceAttack
+gx:MembershipInferenceAttack rdf:type owl:Class ;
+                             rdfs:subClassOf gx:PrivacyAttack .
+
+
+###  http://example.org/globalExplainerPrivacy#PrivacyAttack
+gx:PrivacyAttack rdf:type owl:Class ;
+                 rdfs:subClassOf :InteractionTask .
+
+
+###  http://example.org/globalExplainerPrivacy#PrivacyRisk
+gx:PrivacyRisk rdf:type owl:Class .
+
+
+###  http://example.org/globalExplainerPrivacy#PrivateDataset
+gx:PrivateDataset rdf:type owl:Class ;
+                  rdfs:subClassOf gx:Dataset .
+
+
+###  http://example.org/humanAIConfidence#AIClassifier
+hc:AIClassifier rdf:type owl:Class ;
+                rdfs:subClassOf :ArtificialAgent .
+
+
+###  http://example.org/humanAIConfidence#AccuracyMetric
+hc:AccuracyMetric rdf:type owl:Class ;
+                  rdfs:subClassOf pa:MeasurementMetric .
+
+
+###  http://example.org/humanAIConfidence#ConfidenceCalibration
+hc:ConfidenceCalibration rdf:type owl:Class ;
+                         rdfs:subClassOf pa:MeasurementMetric .
+
+
+###  http://example.org/humanAIConfidence#ConfidenceDisplaySetting
+hc:ConfidenceDisplaySetting rdf:type owl:Class ;
+                            rdfs:subClassOf :Context .
+
+
+###  http://example.org/humanAIConfidence#HumanAIDecisionProcess
+hc:HumanAIDecisionProcess rdf:type owl:Class ;
+                          rdfs:subClassOf :Interaction .
+
+
+###  http://example.org/humanAIConfidence#ImageClassificationTask
+hc:ImageClassificationTask rdf:type owl:Class ;
+                           rdfs:subClassOf :Scenario .
+
+
+###  http://example.org/humanAIConfidence#Participant
+hc:Participant rdf:type owl:Class ;
+               rdfs:subClassOf :Human .
+
+
+###  http://example.org/humanAIConfidence#Reliance
+hc:Reliance rdf:type owl:Class ;
+            rdfs:subClassOf pa:MeasurementMetric .
+
+
+###  http://example.org/hybridValues#ChoiceDistribution
+hv:ChoiceDistribution rdf:type owl:Class ;
+                      rdfs:subClassOf :Domain .
+
+
+###  http://example.org/hybridValues#ChoiceMotivationConflict
+hv:ChoiceMotivationConflict rdf:type owl:Class ;
+                            rdfs:subClassOf :Domain .
+
+
+###  http://example.org/hybridValues#EstimationMethod
+hv:EstimationMethod rdf:type owl:Class ;
+                    rdfs:subClassOf :ProcessingMethod .
+
+
+###  http://example.org/hybridValues#Motivation
+hv:Motivation rdf:type owl:Class ;
+              rdfs:subClassOf :Domain .
+
+
+###  http://example.org/hybridValues#Participant
+hv:Participant rdf:type owl:Class ;
+               rdfs:subClassOf :Human .
+
+
+###  http://example.org/hybridValues#PolicyOption
+hv:PolicyOption rdf:type owl:Class ;
+                rdfs:subClassOf :Domain .
+
+
+###  http://example.org/hybridValues#Value
+hv:Value rdf:type owl:Class ;
+         rdfs:subClassOf :Domain .
+
+
+###  http://example.org/hybridValues#ValuePreference
+hv:ValuePreference rdf:type owl:Class ;
+                   rdfs:subClassOf :Domain .
+
+
+###  http://example.org/jobVacancies#JobVacancy
+jv:JobVacancy rdf:type owl:Class ;
+              rdfs:subClassOf :Domain .
+
+
+###  http://example.org/jobVacancies#Jobseeker
+jv:Jobseeker rdf:type owl:Class ;
+             rdfs:subClassOf :Human .
+
+
+###  http://example.org/jobVacancies#MatchingResult
+jv:MatchingResult rdf:type owl:Class ;
+                  rdfs:subClassOf :Domain .
+
+
+###  http://example.org/jobVacancies#MatchingSystem
+jv:MatchingSystem rdf:type owl:Class ;
+                  rdfs:subClassOf :ProcessingMethod .
+
+
+###  http://example.org/jobVacancies#SkillSet
+jv:SkillSet rdf:type owl:Class ;
+            rdfs:subClassOf :Domain .
+
+
+###  http://example.org/jobVacancies#ValueSet
+jv:ValueSet rdf:type owl:Class ;
+            rdfs:subClassOf :Domain .
+
+
+###  http://example.org/physicalActivityChatbot#Barrier
+pa:Barrier rdf:type owl:Class ;
+           rdfs:subClassOf :Context .
+
+
+###  http://example.org/physicalActivityChatbot#ChatbotAgent
+pa:ChatbotAgent rdf:type owl:Class ;
+                rdfs:subClassOf :ArtificialAgent .
+
+
+###  http://example.org/physicalActivityChatbot#ChatbotIntervention
+pa:ChatbotIntervention rdf:type owl:Class ;
+                       rdfs:subClassOf :Interaction .
+
+
+###  http://example.org/physicalActivityChatbot#MeasurementMetric
+pa:MeasurementMetric rdf:type owl:Class ;
+                     rdfs:subClassOf :Domain .
+
+
+###  http://example.org/physicalActivityChatbot#Participant
+pa:Participant rdf:type owl:Class ;
+               rdfs:subClassOf :Human .
+
+
+###  http://example.org/physicalActivityChatbot#StudyCondition
+pa:StudyCondition rdf:type owl:Class ;
+                  rdfs:subClassOf :Scenario .
+
+
+###  http://example.org/smartManufacturing#AIActor
+sm:AIActor rdf:type owl:Class ;
+           rdfs:subClassOf :ArtificialAgent .
+
+
+###  http://example.org/smartManufacturing#CollaborationGoal
+sm:CollaborationGoal rdf:type owl:Class ;
+                     rdfs:subClassOf :Endgoal .
+
+
+###  http://example.org/smartManufacturing#CollaborationSystem
+sm:CollaborationSystem rdf:type owl:Class ;
+                       rdfs:subClassOf :Context .
+
+
+###  http://example.org/smartManufacturing#CollaborationTask
+sm:CollaborationTask rdf:type owl:Class ;
+                     rdfs:subClassOf :InteractionTask .
+
+
+###  http://example.org/smartManufacturing#CollaborationTeam
+sm:CollaborationTeam rdf:type owl:Class ;
+                     rdfs:subClassOf :Actor .
+
+
+###  http://example.org/smartManufacturing#CommunicationProcess
+sm:CommunicationProcess rdf:type owl:Class ;
+                        rdfs:subClassOf :InteractionMethod .
+
+
+###  http://example.org/smartManufacturing#HumanOperator
+sm:HumanOperator rdf:type owl:Class ;
+                 rdfs:subClassOf :Human .
+
+
+###  http://example.org/smartManufacturing#Skill
+sm:Skill rdf:type owl:Class .
+
+
+###  http://example.org/smartManufacturing#SmartManufacturingProcess
+sm:SmartManufacturingProcess rdf:type owl:Class ;
+                             rdfs:subClassOf :Scenario .
+
+
+###  http://example.org/supple#Agenda
+suppl:Agenda rdf:type owl:Class .
+
+
+###  http://example.org/supple#ConversationPattern
+suppl:ConversationPattern rdf:type owl:Class ;
+                          rdfs:subClassOf :InteractionMethod .
+
+
+###  http://example.org/supple#DialogIntent
+suppl:DialogIntent rdf:type owl:Class .
+
+
+###  http://example.org/supple#DialogParticipant
+suppl:DialogParticipant rdf:type owl:Class ;
+                        rdfs:subClassOf :Actor .
+
+
+###  http://example.org/supple#DialogSequence
+suppl:DialogSequence rdf:type owl:Class .
+
+
+###  http://example.org/supple#DialogSession
+suppl:DialogSession rdf:type owl:Class ;
+                    rdfs:subClassOf :Interaction .
+
+
+###  http://example.org/supple#InformationState
+suppl:InformationState rdf:type owl:Class .
+
+
+###  http://example.org/supple#RepairSequence
+suppl:RepairSequence rdf:type owl:Class ;
+                     rdfs:subClassOf :InteractionTask ,
+                                     suppl:DialogSequence .
+
+
+###  http://www.w3.org/2002/07/owl#PropertyChainAxiom
+owl:PropertyChainAxiom rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example.org/aiAidedBrainstorming#condition_tool_off
+brain:condition_tool_off rdf:type owl:NamedIndividual ,
+                                  brain:ExperimentalCondition ;
+                         owl:sameAs ai:condition_ai_off ;
+                         rdfs:comment "Condition where participants do NOT have the LLM-based brainstorming tool available." .
+
+
+###  http://example.org/aiAssistance#condition_ai_off
+
+###  http://example.org/aiAidedBrainstorming#condition_tool_on
+brain:condition_tool_on rdf:type owl:NamedIndividual ,
+                                 brain:ExperimentalCondition ;
+                        owl:sameAs ai:condition_ai_on ;
+                        rdfs:comment "Condition where participants have the LLM-based brainstorming tool available." .
+
+
+###  http://example.org/aiAssistance#condition_ai_on
+
+###  http://example.org/aiAidedBrainstorming#participant_003
+brain:participant_003 rdf:type owl:NamedIndividual ,
+                               brain:Participant ;
+                      rdfs:comment "Example participant 003." .
+
+
+###  http://example.org/aiAidedBrainstorming#participant_004
+brain:participant_004 rdf:type owl:NamedIndividual ,
+                               brain:Participant ;
+                      rdfs:comment "Example participant 004." .
+
+
+###  http://example.org/aiAidedBrainstorming#promptedGPT3Method
+brain:promptedGPT3Method rdf:type owl:NamedIndividual ,
+                                  brain:LLMBrainstorming ;
+                         rdfs:comment "LLM-based brainstorming method (GPT-3), prompted with semantic transformations from the think-aloud data." .
+
+
+###  http://example.org/aiAidedBrainstorming#study_guesstimation_llm
+brain:study_guesstimation_llm rdf:type owl:NamedIndividual ,
+                                       brain:GuesstimationTask ;
+                              brain:hasCondition brain:condition_tool_off ,
+                                                 brain:condition_tool_on ;
+                              brain:involvesParticipant brain:participant_003 ,
+                                                        brain:participant_004 ;
+                              brain:usesLLMBrainstorming brain:promptedGPT3Method ;
+                              rdfs:comment "A scenario in which participants solve guesstimation problems, sometimes aided by an LLM-based brainstorming tool." .
+
+
+###  http://example.org/aiAidedBrainstorming#transform_generalize_student
+brain:transform_generalize_student rdf:type owl:NamedIndividual ,
+                                            brain:SemanticTransformation ;
+                                   rdfs:comment "Generalizing 'female student' to 'woman' to find approximate data in a guesstimation scenario." .
+
+
+###  http://example.org/aiAidedBrainstorming#transform_related_chocolate_bar
+brain:transform_related_chocolate_bar rdf:type owl:NamedIndividual ,
+                                               brain:SemanticTransformation ;
+                                      rdfs:comment "Using a related chocolate bar brand to find approximate weight of chocolate content." .
+
+
+###  http://example.org/aiAidedBrainstorming#transform_specialize_trains
+brain:transform_specialize_trains rdf:type owl:NamedIndividual ,
+                                           brain:SemanticTransformation ;
+                                  rdfs:comment "Specializing 'trains' to 'long-distance trains' for more precise data." .
+
+
+###  http://example.org/aiAssistance#aiAssistancePaper
+ai:aiAssistancePaper rdf:type owl:NamedIndividual ,
+                              :Paper ;
+                     :hasAuthors "Heliodoro Tejeda Lemus, Aakriti Kumar, Mark Steyvers" ;
+                     :hasDOInr "10.3233/FAIA220201" ;
+                     :hasOntologyNamespace "ai: <http://example.org/aiAssistance#>" ;
+                     :hasTItle "An Empirical Investigation of Reliance on AI-Assistance in a Noisy-Image Classification Task" .
+
+
+###  http://example.org/aiAssistance#classifier_above_baseline
+ai:classifier_above_baseline rdf:type owl:NamedIndividual ,
+                                      ai:ClassifierAboveBaseline .
+
+
+###  http://example.org/aiAssistance#classifier_below_baseline
+ai:classifier_below_baseline rdf:type owl:NamedIndividual ,
+                                      ai:ClassifierBelowBaseline .
+
+
+###  http://example.org/aiAssistance#classifier_on_baseline
+ai:classifier_on_baseline rdf:type owl:NamedIndividual ,
+                                   ai:ClassifierOnBaseline .
+
+
+###  http://example.org/aiAssistance#condition_ai_off
+ai:condition_ai_off rdf:type owl:NamedIndividual ,
+                             ai:AIOffCondition .
+
+
+###  http://example.org/aiAssistance#condition_ai_on
+ai:condition_ai_on rdf:type owl:NamedIndividual ,
+                            ai:AIOnCondition .
+
+
+###  http://example.org/aiAssistance#participant_001
+ai:participant_001 rdf:type owl:NamedIndividual ,
+                            ai:Participant ;
+                   ai:hasAutomationBiasScore "0.4"^^xsd:float ;
+                   ai:hasOptimalRelianceGap "0.1"^^xsd:float .
+
+
+###  http://example.org/aiAssistance#participant_002
+ai:participant_002 rdf:type owl:NamedIndividual ,
+                            ai:Participant ;
+                   ai:hasAutomationBiasScore "0.28"^^xsd:float ;
+                   ai:hasOptimalRelianceGap "0.1"^^xsd:float .
+
+
+###  http://example.org/aiAssistance#task_p1_t1
+ai:task_p1_t1 rdf:type owl:NamedIndividual ,
+                       ai:NoisyImageClassificationTask ;
+              ai:hasCondition ai:condition_ai_on ;
+              ai:hasAccuracyValue 0.85 ;
+              rdfs:comment "Noisy image classification task participant 1, trial 1" .
+
+
+###  http://example.org/aiAssistance#task_p2_t1
+ai:task_p2_t1 rdf:type owl:NamedIndividual ,
+                       ai:NoisyImageClassificationTask ;
+              ai:hasCondition ai:condition_ai_off ;
+              ai:hasAccuracyValue 0.92 ;
+              rdfs:comment "Noisy image classification task participant 2, trial 1" .
+
+
+###  http://example.org/combined_ontology#paper_value_preferences
+:paper_value_preferences rdf:type owl:NamedIndividual ,
+                                  :Paper ;
+                         :hasAuthors """Luciano C. Siebert
+Enrico Liscio
+Pradeep K. Murukannaiah
+Lionel Kaptein""" ;
+                         :hasDOInr "DOI:10.3233/FAIA220193" ;
+                         :hasOntologyNamespace "hv: <http://example.org/hybridValues#>" ;
+                         :hasTItle "Estimating Value Preferences in a Hybrid Participatory System" .
+
+
+###  http://example.org/combined_ontology/Adaptiveness
+:Adaptiveness rdf:type owl:NamedIndividual ,
+                       :Capability .
+
+
+###  http://example.org/combined_ontology/Adult
+:Adult rdf:type owl:NamedIndividual ,
+                :Human .
+
+
+###  http://example.org/combined_ontology/BDI
+:BDI rdf:type owl:NamedIndividual ,
+              :Capability .
+
+
+###  http://example.org/combined_ontology/Child
+:Child rdf:type owl:NamedIndividual ,
+                :Human .
+
+
+###  http://example.org/combined_ontology/Collaboration-based
+:Collaboration-based rdf:type owl:NamedIndividual ,
+                              :InteractionMethod .
+
+
+###  http://example.org/combined_ontology/Collaborativeness
+:Collaborativeness rdf:type owl:NamedIndividual ,
+                            :Capability .
+
+
+###  http://example.org/combined_ontology/Communication
+:Communication rdf:type owl:NamedIndividual ,
+                        :Capability .
+
+
+###  http://example.org/combined_ontology/Contribution-based
+:Contribution-based rdf:type owl:NamedIndividual ,
+                             :InteractionMethod .
+
+
+###  http://example.org/combined_ontology/Designer
+:Designer rdf:type owl:NamedIndividual ,
+                   :Human .
+
+
+###  http://example.org/combined_ontology/Explainability
+:Explainability rdf:type owl:NamedIndividual ,
+                         :InteractionTask .
+
+
+###  http://example.org/combined_ontology/Generating
+:Generating rdf:type owl:NamedIndividual ,
+                     :ProcessingTask .
+
+
+###  http://example.org/combined_ontology/Hybrid
+:Hybrid rdf:type owl:NamedIndividual ,
+                 :ProcessingMethod .
+
+
+###  http://example.org/combined_ontology/Intelligent_System
+:Intelligent_System rdf:type owl:NamedIndividual ,
+                             :ArtificialAgent .
+
+
+###  http://example.org/combined_ontology/Learning
+:Learning rdf:type owl:NamedIndividual ,
+                   :ProcessingTask .
+
+
+###  http://example.org/combined_ontology/Multimodal
+:Multimodal rdf:type owl:NamedIndividual ,
+                     :InteractionMethod .
+
+
+###  http://example.org/combined_ontology/Neuro-symbolic
+:Neuro-symbolic rdf:type owl:NamedIndividual ,
+                         :ProcessingMethod .
+
+
+###  http://example.org/combined_ontology/Non-cooperative
+:Non-cooperative rdf:type owl:NamedIndividual ,
+                          :InteractionMethod .
+
+
+###  http://example.org/combined_ontology/Question-Answering
+:Question-Answering rdf:type owl:NamedIndividual ,
+                             :InteractionTask .
+
+
+###  http://example.org/combined_ontology/Reasoning
+:Reasoning rdf:type owl:NamedIndividual ,
+                    :ProcessingTask .
+
+
+###  http://example.org/combined_ontology/Recommendation
+:Recommendation rdf:type owl:NamedIndividual ,
+                         :InteractionTask .
+
+
+###  http://example.org/combined_ontology/Responsibility
+:Responsibility rdf:type owl:NamedIndividual ,
+                         :Capability .
+
+
+###  http://example.org/combined_ontology/Robot
+:Robot rdf:type owl:NamedIndividual ,
+                :ArtificialAgent .
+
+
+###  http://example.org/combined_ontology/Single-agent
+:Single-agent rdf:type owl:NamedIndividual ,
+                       :InteractionMethod .
+
+
+###  http://example.org/combined_ontology/Statistical
+:Statistical rdf:type owl:NamedIndividual ,
+                      :ProcessingMethod .
+
+
+###  http://example.org/combined_ontology/Symbolic
+:Symbolic rdf:type owl:NamedIndividual ,
+                   :ProcessingMethod .
+
+
+###  http://example.org/combined_ontology/Teacher
+:Teacher rdf:type owl:NamedIndividual ,
+                  :Human .
+
+
+###  http://example.org/combined_ontology/Transforming
+:Transforming rdf:type owl:NamedIndividual ,
+                       :ProcessingTask .
+
+
+###  http://example.org/combined_ontology/Transparency
+:Transparency rdf:type owl:NamedIndividual ,
+                       :Capability .
+
+
+###  http://example.org/combined_ontology/aiAidedBrainstormingPaper
+:aiAidedBrainstormingPaper rdf:type owl:NamedIndividual ,
+                                    :Paper ;
+                           :hasAuthors "Vildan Salikutluk, Dorothea Koert, Frank Jäkel" ;
+                           :hasDOInr "10.3233/FAIA230081" ;
+                           :hasOntologyNamespace "brain: <http://example.org/aiAidedBrainstorming#>" ;
+                           :hasTItle "Interacting with Large Language Models: A Case Study on AI-Aided Brainstorming for Guesstimation Problems" .
+
+
+###  http://example.org/combined_ontology/generativeVRpaper
+:generativeVRpaper rdf:type owl:NamedIndividual ,
+                            :Paper ;
+                   :hasAuthors """Carina LIEBERS, Niklas PFUTZENREUTER , Jonas AUDA,
+Uwe GRUENEFELD and Stefan SCHNEEGASS""" ;
+                   :hasDOInr "doi:10.3233/FAIA240196" ;
+                   :hasOntologyNamespace "gv: <http://example.org/generativeVR#>" ;
+                   :hasTItle """“Computer, Generate!” – Investigating
+User-Controlled Generation of Immersive
+Virtual Environments""" .
+
+
+###  http://example.org/generativeVR#VR_GardenStudy
+gv:VR_GardenStudy rdf:type owl:NamedIndividual ,
+                           gv:EnvironmentGeneration ;
+                  gv:employsGenerationStep gv:coloring_step ,
+                                           gv:creation_step ,
+                                           gv:deletion_step ,
+                                           gv:movement_step ,
+                                           gv:scaling_step ;
+                  gv:hasControlFlow gv:all_at_once_flow ,
+                                    gv:creation_before_manipulation_flow ,
+                                    gv:step_by_step_flow ;
+                  gv:hasModality gv:controller_input_modality ,
+                                 gv:hand_input_modality ,
+                                 gv:voice_input_modality ;
+                  gv:involvesParticipant gv:participant_009 ;
+                  rdfs:comment "A user-controlled environment generation scenario in VR (based on 'Computer, Generate!' paper)." .
+
+
+###  http://example.org/generativeVR#all_at_once_flow
+gv:all_at_once_flow rdf:type owl:NamedIndividual ,
+                             gv:AllAtOnceFlow ;
+                    rdfs:comment "Control flow in which the entire environment is generated with one request (all at once)." .
+
+
+###  http://example.org/generativeVR#coloring_step
+gv:coloring_step rdf:type owl:NamedIndividual ,
+                          gv:ColoringStep ;
+                 rdfs:comment "Step in which user applies or changes an object's color." .
+
+
+###  http://example.org/generativeVR#controller_input_modality
+gv:controller_input_modality rdf:type owl:NamedIndividual ,
+                                      gv:ControllerInput ;
+                             rdfs:comment "Controller-based interaction used particularly for object positioning, coloring, and deleting." .
+
+
+###  http://example.org/generativeVR#creation_before_manipulation_flow
+gv:creation_before_manipulation_flow rdf:type owl:NamedIndividual ,
+                                              gv:CreationBeforeManipulationFlow ;
+                                     rdfs:comment "A mixed control flow generating all objects first, then allowing manual adjustments." .
+
+
+###  http://example.org/generativeVR#creation_step
+gv:creation_step rdf:type owl:NamedIndividual ,
+                          gv:CreationStep ;
+                 rdfs:comment "Step in which user requests or spawns a new virtual object." .
+
+
+###  http://example.org/generativeVR#deletion_step
+gv:deletion_step rdf:type owl:NamedIndividual ,
+                          gv:DeletionStep ;
+                 rdfs:comment "Step in which user removes an unwanted object from the scene." .
+
+
+###  http://example.org/generativeVR#hand_input_modality
+gv:hand_input_modality rdf:type owl:NamedIndividual ,
+                                gv:HandInput ;
+                       rdfs:comment "Hand tracking interaction (pinch gesture) for manipulation, although less favored for precision." .
+
+
+###  http://example.org/generativeVR#movement_step
+gv:movement_step rdf:type owl:NamedIndividual ,
+                          gv:MovementStep ;
+                 rdfs:comment "Step in which user repositions an object within the virtual environment." .
+
+
+###  http://example.org/generativeVR#participant_009
+gv:participant_009 rdf:type owl:NamedIndividual ,
+                            gv:Participant ;
+                   rdfs:comment "Example participant from the user study, controlling environment generation in VR." .
+
+
+###  http://example.org/generativeVR#scaling_step
+gv:scaling_step rdf:type owl:NamedIndividual ,
+                         gv:ScalingStep ;
+                rdfs:comment "Step in which user scales an object to the desired size." .
+
+
+###  http://example.org/generativeVR#step_by_step_flow
+gv:step_by_step_flow rdf:type owl:NamedIndividual ,
+                              gv:StepByStepFlow ;
+                     rdfs:comment "Generates and edits one object at a time for fine-grained user control." .
+
+
+###  http://example.org/generativeVR#voice_input_modality
+gv:voice_input_modality rdf:type owl:NamedIndividual ,
+                                 gv:VoiceInput ;
+                        rdfs:comment "Voice input used especially for object creation commands (paper pre-study results)." .
+
+
+###  http://example.org/globalExplainerPrivacy#deltaRisk_explainer_vs_blackbox
+gx:deltaRisk_explainer_vs_blackbox rdf:type owl:NamedIndividual ,
+                                            gx:PrivacyRisk ;
+                                   gx:hasDeltaRisk "0.12"^^xsd:float ;
+                                   rdfs:comment "Difference in recall for the membership inference attack comparing the explainer vs the black-box." .
+
+
+###  http://example.org/globalExplainerPrivacy#dt_explainer
+gx:dt_explainer rdf:type owl:NamedIndividual ,
+                         gx:GlobalExplainer ;
+                gx:attackedBy gx:membership_inference_attack_c_dt ;
+                gx:hasPrivacyRisk gx:dt_privacy_risk_metric ;
+                gx:mimics gx:rf_blackbox_classifier ;
+                rdfs:comment "A simpler decision tree explainer that mimics the black-box random forest." .
+
+
+###  http://example.org/globalExplainerPrivacy#dt_privacy_risk_metric
+gx:dt_privacy_risk_metric rdf:type owl:NamedIndividual ,
+                                   gx:PrivacyRisk ;
+                          gx:hasDeltaRisk "0.27"^^xsd:float ;
+                          rdfs:comment "Illustrative MIA risk measure for the simpler DT explainer." .
+
+
+###  http://example.org/globalExplainerPrivacy#membership_inference_attack_b
+gx:membership_inference_attack_b rdf:type owl:NamedIndividual ,
+                                          gx:MembershipInferenceAttack ;
+                                 rdfs:comment "MIA tailored to the black-box model, checking if a record is from the training data (Naretto et al.)." .
+
+
+###  http://example.org/globalExplainerPrivacy#membership_inference_attack_c_dt
+gx:membership_inference_attack_c_dt rdf:type owl:NamedIndividual ,
+                                             gx:MembershipInferenceAttack ;
+                                    rdfs:comment "MIA tailored to the DT-based global explainer." .
+
+
+###  http://example.org/globalExplainerPrivacy#membership_inference_attack_c_trepan
+gx:membership_inference_attack_c_trepan rdf:type owl:NamedIndividual ,
+                                                 gx:MembershipInferenceAttack ;
+                                        rdfs:comment "MIA tailored to the TREPAN global explainer, possibly exposing higher privacy risk." .
+
+
+###  http://example.org/globalExplainerPrivacy#paper_global_explainer_privacy
+gx:paper_global_explainer_privacy rdf:type owl:NamedIndividual ,
+                                           :Paper ;
+                                  :hasAuthors "Francesca Naretto, Anna Monreale, Fosca Giannotti" ;
+                                  :hasDOInr "DOI:10.3233/FAIA220206" ;
+                                  :hasOntologyNamespace "gx: <http://example.org/globalExplainerPrivacy#>" ;
+                                  :hasTItle "Privacy risk exposure of global explainers" .
+
+
+###  http://example.org/globalExplainerPrivacy#rf_blackbox_classifier
+gx:rf_blackbox_classifier rdf:type owl:NamedIndividual ,
+                                   gx:BlackBoxClassifier ;
+                          gx:attackedBy gx:membership_inference_attack_b ;
+                          gx:hasPrivacyRisk gx:rf_privacy_risk_metric ;
+                          gx:trainedOn gx:tabular_private_dataset_1 ;
+                          rdfs:comment "A random forest black-box model trained on a private dataset (from Naretto et al.)." .
+
+
+###  http://example.org/globalExplainerPrivacy#rf_privacy_risk_metric
+gx:rf_privacy_risk_metric rdf:type owl:NamedIndividual ,
+                                   gx:PrivacyRisk ;
+                          gx:hasDeltaRisk "0.15"^^xsd:float ;
+                          rdfs:comment "An illustrative risk measure (R_IN) for the black-box MIA." .
+
+
+###  http://example.org/globalExplainerPrivacy#tabular_private_dataset_1
+gx:tabular_private_dataset_1 rdf:type owl:NamedIndividual ,
+                                      gx:PrivateDataset ;
+                             rdfs:comment "A private tabular dataset used to train the black-box classifier." .
+
+
+###  http://example.org/globalExplainerPrivacy#trepan_explainer
+gx:trepan_explainer rdf:type owl:NamedIndividual ,
+                             gx:GlobalExplainer ;
+                    gx:attackedBy gx:membership_inference_attack_c_trepan ;
+                    gx:hasPrivacyRisk gx:trepan_privacy_risk_metric ;
+                    gx:mimics gx:rf_blackbox_classifier ;
+                    rdfs:comment "A TREPAN-like explainer that mimics the black-box random forest." .
+
+
+###  http://example.org/globalExplainerPrivacy#trepan_privacy_risk_metric
+gx:trepan_privacy_risk_metric rdf:type owl:NamedIndividual ,
+                                       gx:PrivacyRisk ;
+                              gx:hasDeltaRisk "0.22"^^xsd:float ;
+                              rdfs:comment "Illustrative MIA risk measure for the TREPAN-based explainer." .
+
+
+###  http://example.org/humanAIConfidence#classifier_above_human
+hc:classifier_above_human rdf:type owl:NamedIndividual ,
+                                   hc:AIClassifier ;
+                          hc:hasAccuracyValue "0.85"^^xsd:float ;
+                          hc:hasConfidenceValue "Relatively Well-Calibrated" ;
+                          rdfs:comment "A CNN-based classifier (VGG-19 variant) with accuracy above the average human baseline." .
+
+
+###  http://example.org/humanAIConfidence#classifier_below_human
+hc:classifier_below_human rdf:type owl:NamedIndividual ,
+                                   hc:AIClassifier ;
+                          hc:hasAccuracyValue "0.55"^^xsd:float ;
+                          hc:hasConfidenceValue "Uncalibrated" ;
+                          rdfs:comment "A CNN-based classifier (VGG-19 variant) with accuracy below the average human baseline." .
+
+
+###  http://example.org/humanAIConfidence#classifier_on_par_human
+hc:classifier_on_par_human rdf:type owl:NamedIndividual ,
+                                    hc:AIClassifier ;
+                           hc:hasAccuracyValue "0.7"^^xsd:float ;
+                           hc:hasConfidenceValue "Moderate" ;
+                           rdfs:comment "A CNN-based classifier (VGG-19 variant) with accuracy roughly matching human baseline." .
+
+
+###  http://example.org/humanAIConfidence#confidence_display_OFF
+hc:confidence_display_OFF rdf:type owl:NamedIndividual ,
+                                   hc:ConfidenceDisplaySetting ;
+                          rdfs:comment "Experimental condition where participants only see AI's top choice (no confidence displayed)." .
+
+
+###  http://example.org/humanAIConfidence#confidence_display_ON
+hc:confidence_display_ON rdf:type owl:NamedIndividual ,
+                                  hc:ConfidenceDisplaySetting ;
+                         rdfs:comment "Experimental condition where participants see the AI's confidence for each classification." .
+
+
+###  http://example.org/humanAIConfidence#paper_confidence_display
+hc:paper_confidence_display rdf:type owl:NamedIndividual ,
+                                     :Paper ;
+                            :hasAuthors "Heliodoro Tejeda Lemus, Aakriti Kumar, Mark Steyvers" ;
+                            :hasDOInr "doi:10.3233/FAIA230087" ;
+                            :hasOntologyNamespace "hc: <http://example.org/humanAIConfidence#>" ;
+                            :hasTItle "How Displaying AI Confidence Affects Reliance and Hybrid Human-AI Performance" .
+
+
+###  http://example.org/humanAIConfidence#participant_005
+hc:participant_005 rdf:type owl:NamedIndividual ,
+                            hc:Participant ;
+                   hc:hasRelianceValue "0.65"^^xsd:float ;
+                   rdfs:comment "Participant assigned to the below-human classifier + confidence display ON condition." .
+
+
+###  http://example.org/humanAIConfidence#participant_006
+hc:participant_006 rdf:type owl:NamedIndividual ,
+                            hc:Participant ;
+                   hc:hasRelianceValue "0.82"^^xsd:float ;
+                   rdfs:comment "Participant assigned to the above-human classifier + confidence display OFF condition." .
+
+
+###  http://example.org/humanAIConfidence#study_confidence_display
+hc:study_confidence_display rdf:type owl:NamedIndividual ,
+                                     hc:HumanAIDecisionProcess ;
+                            hc:usesClassifier hc:classifier_above_human ,
+                                              hc:classifier_below_human ,
+                                              hc:classifier_on_par_human ;
+                            rdfs:comment """An experimental scenario in which participants classify noisy images 
+   either with or without AI confidence displays, and with one of three AI classifiers
+   (below-human, on-par, above-human).""" ,
+                                         """This study used three different CNN-based AI classifiers 
+                   (A, B, C) in separate between-subject conditions.""" .
+
+
+###  http://example.org/jobVacancies#esco_skillset_24
+jv:esco_skillset_24 rdf:type owl:NamedIndividual ,
+                             jv:SkillSet ;
+                    rdfs:comment """
+  A simplified ESCO-based skill set (24 mid-level skills) 
+  used to match jobseekers and vacancies on skill criteria.
+  """ .
+
+
+###  http://example.org/jobVacancies#industry5_valueset
+jv:industry5_valueset rdf:type owl:NamedIndividual ,
+                               jv:ValueSet ;
+                      rdfs:comment """
+  A minimal example set of 10 Industry 5.0-aligned values 
+  (e.g., Sustainability, Inclusivity, Worker Well-being, 
+  Human-Centric Approach, etc.).
+  """ .
+
+
+###  http://example.org/jobVacancies#matchingSystem_equalWeights
+jv:matchingSystem_equalWeights rdf:type owl:NamedIndividual ,
+                                        jv:MatchingSystem ;
+                               rdfs:comment """
+  Matching system assigning a predefined, equal weight to 
+  both 'skills match' and 'values match', 
+  computing an average score to rank job vacancies.
+  """ .
+
+
+###  http://example.org/jobVacancies#matchingSystem_pareto
+jv:matchingSystem_pareto rdf:type owl:NamedIndividual ,
+                                  jv:MatchingSystem ;
+                         rdfs:comment """
+  Pareto-optimal approach, presenting a set of top vacancies 
+  such that improving one dimension (skills) 
+  cannot be done without sacrificing the other (values), 
+  leaving the final selection to the jobseeker.
+  """ .
+
+
+###  http://example.org/jobVacancies#matchingSystem_skillsOnly
+jv:matchingSystem_skillsOnly rdf:type owl:NamedIndividual ,
+                                      jv:MatchingSystem ;
+                             rdfs:comment """
+  Baseline matching system: Only considers the 'skills-matching score' 
+  (e.g. via cosine similarity) to rank job vacancies for the jobseeker.
+  """ .
+
+
+###  http://example.org/jobVacancies#paper_beyond_skills_values
+jv:paper_beyond_skills_values rdf:type owl:NamedIndividual ,
+                                       :Paper ;
+                              :hasAuthors "Ajaya Adhikari, Quirine Smit, Joost A.G.M. van Genabeek, Steven Dhondt, Cor J. Veenman" ;
+                              :hasDOInr "doi:10.3233/FAIA240178" ;
+                              :hasOntologyNamespace "jv: <http://example.org/jobVacancies#>" ;
+                              :hasTItle "Beyond Skills: The Role of Values in Job Seeking in the Era of Industry 5.0" .
+
+
+###  http://example.org/jobVacancies#user_study_smallScale
+jv:user_study_smallScale rdf:type owl:NamedIndividual ,
+                                  jv:MatchingResult ;
+                         jv:usedMatchingSystem jv:matchingSystem_equalWeights ,
+                                               jv:matchingSystem_pareto ,
+                                               jv:matchingSystem_skillsOnly ;
+                         rdfs:comment """
+  A small-scale user study with 20 participants (employed data scientists) 
+  imagining a job-seeking scenario. Participants rated the top n suggested 
+  vacancies from the three proposed systems and found that 
+  skill-only matching was less preferred than skill-and-value matching.
+  """ .
+
+
+###  http://example.org/physicalActivityChatbot#barrier_fatigue
+pa:barrier_fatigue rdf:type owl:NamedIndividual ,
+                            pa:Barrier ;
+                   rdfs:comment "A perceived barrier of fatigue limiting physical activity engagement." .
+
+
+###  http://example.org/physicalActivityChatbot#barrier_habit_formation
+pa:barrier_habit_formation rdf:type owl:NamedIndividual ,
+                                    pa:Barrier ;
+                           rdfs:comment "A perceived barrier of difficulty forming consistent habits for PA." .
+
+
+###  http://example.org/physicalActivityChatbot#barrier_motivation
+pa:barrier_motivation rdf:type owl:NamedIndividual ,
+                               pa:Barrier ;
+                      rdfs:comment "A perceived barrier of low intrinsic motivation." .
+
+
+###  http://example.org/physicalActivityChatbot#barrier_stress
+pa:barrier_stress rdf:type owl:NamedIndividual ,
+                           pa:Barrier ;
+                  rdfs:comment "A perceived barrier of stress limiting physical activity engagement." .
+
+
+###  http://example.org/physicalActivityChatbot#barrier_support_chatbot
+pa:barrier_support_chatbot rdf:type owl:NamedIndividual ,
+                                    pa:ChatbotAgent ;
+                           rdfs:comment "A domain-knowledge-grounded chatbot delivering interventions for common barriers to physical activity." .
+
+
+###  http://example.org/physicalActivityChatbot#barrier_time_management
+pa:barrier_time_management rdf:type owl:NamedIndividual ,
+                                    pa:Barrier ;
+                           rdfs:comment "A perceived barrier of insufficient time or poor time management." .
+
+
+###  http://example.org/physicalActivityChatbot#barrier_unsupportive_social_env
+pa:barrier_unsupportive_social_env rdf:type owl:NamedIndividual ,
+                                            pa:Barrier ;
+                                   rdfs:comment "A perceived barrier of lacking supportive social environment for PA." .
+
+
+###  http://example.org/physicalActivityChatbot#fatigue_intervention_metric
+pa:fatigue_intervention_metric rdf:type owl:NamedIndividual ,
+                                        pa:MeasurementMetric ;
+                               pa:hasAttitudeScore "3.2"^^xsd:float ;
+                               rdfs:comment "Mean user attitude score about the fatigue intervention (scale ~1-5)." .
+
+
+###  http://example.org/physicalActivityChatbot#habit_formation_intervention_metric
+pa:habit_formation_intervention_metric rdf:type owl:NamedIndividual ,
+                                                pa:MeasurementMetric ;
+                                       pa:hasAttitudeScore "3.75"^^xsd:float ;
+                                       rdfs:comment "Mean user attitude score about habit formation interventions (scale ~1-5)." .
+
+
+###  http://example.org/physicalActivityChatbot#intervention_fatigue
+pa:intervention_fatigue rdf:type owl:NamedIndividual ,
+                                 pa:ChatbotIntervention ;
+                        pa:hasMeasurement pa:fatigue_intervention_metric ;
+                        pa:targetsBarrier pa:barrier_fatigue ;
+                        rdfs:comment "Chatbot-delivered graded exercise therapy approach to reduce fatigue." .
+
+
+###  http://example.org/physicalActivityChatbot#intervention_habit_formation
+pa:intervention_habit_formation rdf:type owl:NamedIndividual ,
+                                         pa:ChatbotIntervention ;
+                                pa:hasMeasurement pa:habit_formation_intervention_metric ;
+                                pa:targetsBarrier pa:barrier_habit_formation ;
+                                rdfs:comment "Promoting stable cues and repeated routines to facilitate habit formation for regular PA." .
+
+
+###  http://example.org/physicalActivityChatbot#intervention_motivation
+pa:intervention_motivation rdf:type owl:NamedIndividual ,
+                                    pa:ChatbotIntervention ;
+                           pa:hasMeasurement pa:motivation_intervention_metric ;
+                           pa:targetsBarrier pa:barrier_motivation ;
+                           rdfs:comment "Motivational interviewing to boost intrinsic motivation for physical activity." .
+
+
+###  http://example.org/physicalActivityChatbot#intervention_stress
+pa:intervention_stress rdf:type owl:NamedIndividual ,
+                                pa:ChatbotIntervention ;
+                       pa:hasMeasurement pa:stress_intervention_metric ;
+                       pa:targetsBarrier pa:barrier_stress ;
+                       rdfs:comment "Chatbot-delivered mindfulness intervention for addressing stress as a barrier to PA." .
+
+
+###  http://example.org/physicalActivityChatbot#intervention_time_management
+pa:intervention_time_management rdf:type owl:NamedIndividual ,
+                                         pa:ChatbotIntervention ;
+                                pa:hasMeasurement pa:time_management_intervention_metric ;
+                                pa:targetsBarrier pa:barrier_time_management ;
+                                rdfs:comment "Implementation-intention strategy to improve time management for PA." .
+
+
+###  http://example.org/physicalActivityChatbot#intervention_unsupportive_social_env
+pa:intervention_unsupportive_social_env rdf:type owl:NamedIndividual ,
+                                                 pa:ChatbotIntervention ;
+                                        pa:hasMeasurement pa:social_env_intervention_metric ;
+                                        pa:targetsBarrier pa:barrier_unsupportive_social_env ;
+                                        rdfs:comment "Chatbot-led reflection and planning to improve social support for PA." .
+
+
+###  http://example.org/physicalActivityChatbot#motivation_intervention_metric
+pa:motivation_intervention_metric rdf:type owl:NamedIndividual ,
+                                           pa:MeasurementMetric ;
+                                  pa:hasAttitudeScore "3.9"^^xsd:float ;
+                                  rdfs:comment "Mean user attitude score about the motivation intervention (scale ~1-5)." .
+
+
+###  http://example.org/physicalActivityChatbot#participant_008
+pa:participant_008 rdf:type owl:NamedIndividual ,
+                            pa:Participant ;
+                   pa:receivedIntervention pa:intervention_fatigue ,
+                                           pa:intervention_motivation ,
+                                           pa:intervention_stress ,
+                                           pa:intervention_time_management ,
+                                           pa:intervention_unsupportive_social_env ;
+                   rdfs:comment "Example participant from the physical activity chatbot study." .
+
+
+###  http://example.org/physicalActivityChatbot#physical_activity_chatbot_paper
+pa:physical_activity_chatbot_paper rdf:type owl:NamedIndividual ,
+                                            :Paper ;
+                                   :hasAuthors "Xin Sun, Dimosthenis Casula, Arathy Navaratnam, Anna Popp, Franziska Knopp, Giovanni Busini, Jan Wesołowski, Marie van Reeth, Elke Reich, Reinout Wiers, Jos A. Bosch" ;
+                                   :hasDOInr "doi:10.3233/FAIA230084" ;
+                                   :hasOntologyNamespace "pa: <http://example.org/physicalActivityChatbot#>" ;
+                                   :hasTItle "Virtual Support for Real-World Movement: Using Chatbots to Overcome Barriers to Physical Activity" ;
+                                   rdfs:comment "Study describing chatbot interventions to tackle barriers to physical activity." .
+
+
+###  http://example.org/physicalActivityChatbot#social_env_intervention_metric
+pa:social_env_intervention_metric rdf:type owl:NamedIndividual ,
+                                           pa:MeasurementMetric ;
+                                  pa:hasAttitudeScore "3.45"^^xsd:float ;
+                                  rdfs:comment "Mean user attitude score about interventions for unsupportive social environment (scale ~1-5)." .
+
+
+###  http://example.org/physicalActivityChatbot#stress_intervention_metric
+pa:stress_intervention_metric rdf:type owl:NamedIndividual ,
+                                       pa:MeasurementMetric ;
+                              pa:hasAttitudeScore "3.6"^^xsd:float ;
+                              rdfs:comment "Mean user attitude score about the stress intervention (scale ~1-5)." .
+
+
+###  http://example.org/physicalActivityChatbot#time_management_intervention_metric
+pa:time_management_intervention_metric rdf:type owl:NamedIndividual ,
+                                                pa:MeasurementMetric ;
+                                       pa:hasAttitudeScore "3.3"^^xsd:float ;
+                                       rdfs:comment "Mean user attitude score about the time management intervention (scale ~1-5)." .
+
+
+###  http://example.org/smartManufacturing#collab_goal_concept
+sm:collab_goal_concept rdf:type owl:NamedIndividual ,
+                                sm:CollaborationGoal ;
+                       rdfs:comment """
+  Defines short- or long-term objectives for the human-AI team in manufacturing (e.g. 
+  boosting efficiency, safety, quality). Should be well-defined at the outset to guide design.
+  """ .
+
+
+###  http://example.org/smartManufacturing#collab_system_concept
+sm:collab_system_concept rdf:type owl:NamedIndividual ,
+                                  sm:CollaborationSystem ;
+                         rdfs:comment """
+  The socio-technical system (often a Cyber-Physical System) coordinating interactions 
+  between human and AI. Must enable situational awareness, resilience, and user-friendly interfaces.
+  """ .
+
+
+###  http://example.org/smartManufacturing#collab_task_concept
+sm:collab_task_concept rdf:type owl:NamedIndividual ,
+                                sm:CollaborationTask ;
+                       rdfs:comment """
+  A set of activities allocated among human and AI agents to meet collaboration goals. 
+  Proper task allocation considers each agent’s strengths, while promoting operator well-being.
+  """ .
+
+
+###  http://example.org/smartManufacturing#collab_team_concept
+sm:collab_team_concept rdf:type owl:NamedIndividual ,
+                                sm:CollaborationTeam ;
+                       rdfs:comment """
+  A 'team' of at least one human operator plus one AI agent. Humans and AI have complementary 
+  strengths, working toward shared manufacturing goals.
+  """ .
+
+
+###  http://example.org/smartManufacturing#communication_concept
+sm:communication_concept rdf:type owl:NamedIndividual ,
+                                  sm:CommunicationProcess ;
+                         rdfs:comment """
+  The exchange of information, feedback, and context between human(s) and AI. 
+  Must ensure transparency, explainability, and trust-building in manufacturing settings.
+  """ .
+
+
+###  http://example.org/smartManufacturing#human_ai_collaboration_framework
+sm:human_ai_collaboration_framework rdf:type owl:NamedIndividual ,
+                                             sm:SmartManufacturingProcess ;
+                                    sm:hasKeyConcept sm:collab_goal_concept ,
+                                                     sm:collab_system_concept ,
+                                                     sm:collab_task_concept ,
+                                                     sm:collab_team_concept ,
+                                                     sm:communication_concept ,
+                                                     sm:skill_concept ;
+                                    rdfs:comment """
+   Proposed initial framework for human-AI collaboration in smart manufacturing (Hartikainen et al.). 
+   Emphasizes human well-being, effective collaboration design, and the role of six key concepts.
+   """ .
+
+
+###  http://example.org/smartManufacturing#paper_human_ai_collab_smart_mfg
+sm:paper_human_ai_collab_smart_mfg rdf:type owl:NamedIndividual ,
+                                            :Paper ;
+                                   :hasAuthors "Maria Hartikainen, Guna Spurava, and Kaisa Väänänen" ;
+                                   :hasDOInr "doi:10.3233/FAIA240192" ;
+                                   :hasOntologyNamespace "sm: <http://example.org/smartManufacturing#>" ;
+                                   :hasTItle "Human-AI Collaboration in Smart Manufacturing: Key Concepts and Framework for Design" .
+
+
+###  http://example.org/smartManufacturing#skill_concept
+sm:skill_concept rdf:type owl:NamedIndividual ,
+                          sm:Skill ;
+                 rdfs:comment """
+  Highlights operator and AI skill requirements. In dynamic manufacturing, both humans and AI 
+  continuously develop new skills, requiring training, learning, and adaptation.
+  """ .
+
+
+###  http://example.org/supple#close_conversation_pattern
+suppl:close_conversation_pattern rdf:type owl:NamedIndividual ,
+                                          suppl:ConversationPattern ;
+                                 rdfs:comment "A conversation closing pattern (e.g. goodbye, final check, wellwish)." .
+
+
+###  http://example.org/supple#cooking_agent
+suppl:cooking_agent rdf:type owl:NamedIndividual ,
+                             :ArtificialAgent ;
+                    rdfs:comment "An AI-based cooking assistant agent implemented in the SUPPLE framework." .
+
+
+###  http://example.org/supple#cooking_assistant_session
+suppl:cooking_assistant_session rdf:type owl:NamedIndividual ,
+                                         suppl:DialogSession ;
+                                rdfs:comment "A cooking assistant scenario from the SUPPLE framework example. Tracks user-agent interactions over recipe instructions, Q&A, etc." .
+
+
+###  http://example.org/supple#open_conversation_pattern
+suppl:open_conversation_pattern rdf:type owl:NamedIndividual ,
+                                         suppl:ConversationPattern ;
+                                rdfs:comment "A conversation opening pattern (e.g. greeting, introduction)." .
+
+
+###  http://example.org/supple#participant_007
+suppl:participant_007 rdf:type owl:NamedIndividual ,
+                               :Participant ;
+                      rdfs:comment "Example user interacting with the cooking assistant in a sequence-based SUPPLE dialog session." .
+
+
+###  http://example.org/supple#recipe_agenda
+suppl:recipe_agenda rdf:type owl:NamedIndividual ,
+                             suppl:Agenda ;
+                    rdfs:comment "Top-level agent agenda listing recipe-based patterns to be executed in order, e.g. confirm recipe, iterate over cooking steps." .
+
+
+###  http://example.org/supple#recipe_pattern
+suppl:recipe_pattern rdf:type owl:NamedIndividual ,
+                              suppl:ConversationPattern ;
+                     rdfs:comment "A domain-specific pattern for stepping through recipe instructions, triggered by the cooking assistant’s agenda." .
+
+
+###  http://example.org/supple#recipe_steps_pattern
+suppl:recipe_steps_pattern rdf:type owl:NamedIndividual ,
+                                    suppl:ConversationPattern ;
+                           rdfs:comment "Sub-pattern to iterate over multiple steps in the recipe. Repeatedly expands with new steps until completed." .
+
+
+###  http://example.org/supple#repair_pattern
+suppl:repair_pattern rdf:type owl:NamedIndividual ,
+                              suppl:ConversationPattern ;
+                     rdfs:comment "A repair pattern triggered when the user utterance is out of context or unintelligible, prompting clarifications." .
+
+
+###  http://example.org/supple#repair_subsequence_example
+suppl:repair_subsequence_example rdf:type owl:NamedIndividual ,
+                                          suppl:RepairSequence ;
+                                 rdfs:comment "Illustrates a repair subsequence invoked when the user’s intent is not recognized or is out-of-context for the active pattern." .
+
+
+###  http://example.org/supple#sequenceDialogPaper
+suppl:sequenceDialogPaper rdf:type owl:NamedIndividual ,
+                                   :Paper ;
+                          :hasAuthors "Florian Kunneman and Koen V. Hindriks" ;
+                          :hasDOInr "10.3233/FAIA220195" ;
+                          :hasOntologyNamespace "suppl: <http://example.org/supple#>" ;
+                          :hasTItle "A Sequence-Based Dialog Management Framework for Co-Regulated Dialog" .
+
+
+[ rdf:type owl:PropertyChainAxiom
+] .
+
+#################################################################
+#    Annotations
+#################################################################
+
+hc:hasConfidenceValue rdfs:comment "Indicates the confidence (0.0–1.0) for a classification decision, either human or AI." .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( ai:ClassifierAboveBaseline
+                ai:ClassifierBelowBaseline
+                ai:ClassifierOnBaseline
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointProperties ;
+  owl:members ( :hasAuthors
+                :hasDOInr
+                :hasOntologyNamespace
+                :hasTItle
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
