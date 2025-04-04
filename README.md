@@ -81,6 +81,4 @@ Each paper utilizes a custom ontology beyond the combined ontology framework. Be
 
 ![Figure 2 – Ontology from VR generation study](gv.png)
 
----
 
-Let me know if you'd like this exported as a `.md` file or want the figures included inline with captions.
